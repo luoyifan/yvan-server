@@ -2,7 +2,7 @@
  * 持久层类
  */
 export declare class Dao {
-    static selectById<T extends new (...args: any) => any>(clazz: T, ...params: any): InstanceType<T> | undefined;
+    static selectById<T>(entity: T): T | undefined;
 
     static selectList<T extends new (...args: any) => any>(clazz: T, sqlId: string, ...params: any): InstanceType<T>[];
 
@@ -16,6 +16,9 @@ export declare class Dao {
 
     static deleteById<T>(entity: T): number;
 
+    static save<T>(sqlId: string, ...params: any): number;
+
+    static remove<T>(sqlId: string, ...params: any): number;
 }
 
 /**
