@@ -1,0 +1,13 @@
+{
+  "name": "yvan-server",
+  "version": "0.1.4",
+  "description": "yvan-server types",
+  "license": "Apache",
+  "main": "",
+  "types": "index.d.ts",
+  "devDependencies": {
+  },
+  "dependencies": {
+    
+  }
+}
