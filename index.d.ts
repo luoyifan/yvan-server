@@ -63,6 +63,8 @@ interface FieldOption {
     updateIgnore: boolean
 }
 
+type FieldType = 'Double' | 'String' | 'JodaTime' | 'BigDecimal' | 'Boolean' | 'Integer' | string
+
 /**
  * 装饰实体关联的表格名
  */
@@ -71,12 +73,12 @@ export function TableName(name: string): Function;
 /**
  * 装饰实体字段 关联的字段名
  */
-export function TableField(name?: string, option?: FieldOption): Function;
+export function TableField(name: string, type: FieldType, option?: FieldOption): Function;
 
 /**
  * 装饰实体 关联的主键字段名
  */
-export function IdField(name?: string, option?: FieldOption): Function;
+export function IdField(name: string, type: FieldType, option?: FieldOption): Function;
 
 /**
  * 标注服务 Service

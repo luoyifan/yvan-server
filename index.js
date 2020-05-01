@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
     var ServiceBeans = {};
     var deferList = [];
 
-    function IdField(name, option) {
+    function IdField(name, type, option) {
         return function (targetPrototype, propertyKey) {
             if (!targetPrototype.__cols) {
                 targetPrototype.__cols = {};
@@ -13,11 +13,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
                 insertIgnore: false,
                 updateIgnore: false,
             }, option)
-            targetPrototype.__cols[propertyKey] = { field: name, isId: true, option: option };
+            targetPrototype.__cols[propertyKey] = { field: name, type: type, isId: true, option: option };
         }
     };
 
-    function TableField(name, option) {
+    function TableField(name, type, option) {
         return function (targetPrototype, propertyKey) {
             if (!targetPrototype.__cols) {
                 targetPrototype.__cols = {};
@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
                 insertIgnore: false,
                 updateIgnore: false,
             }, option)
-            targetPrototype.__cols[propertyKey] = { field: name, isId: false, option: option };
+            targetPrototype.__cols[propertyKey] = { field: name, type: type, isId: false, option: option };
         }
     };
 
@@ -97,6 +97,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
         var entity = new entityFunction();
         var prototype = entityFunction.prototype;
 
+        // 根据声明类型转换目标
+        // var targetFunction = Reflect.getMetadata("design:type", prototype, fieldName);
+
         for (var fieldName in prototype.__cols) {
             const meta = prototype.__cols[fieldName];
             if (!meta || !javaMap.containsKey(meta.field)) {
@@ -105,7 +108,33 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
             let value = javaMap.get(meta.field);
 
-            // 根据声明类型转换目标
+            switch (meta.type) {
+                case 'Double':
+                    value = new exports.Double(value);
+                    break
+
+                case 'String':
+                    value = (value ? value.toString() : '')
+                    break
+
+                case 'JodaTime':
+                    value = new exports.JodaTime(value);
+                    break
+
+                case 'BigDecimal':
+                    value = exports.BigDecimal.valueOf(value);
+                    break
+
+                case 'Boolean':
+                    value = (value && value !== 'false' && value !== 'N' && value !== '0')
+                    break
+
+                case 'Integer':
+                    value = parseInt(value)
+                    break
+            }
+            /*
+            // 根据声明类型转换目标. Reflect.getMetadata 有性能问题
             var targetFunction = Reflect.getMetadata("design:type", prototype, fieldName);
             if (Java.typeName(targetFunction) === 'java.math.BigDecimal') {
                 try {
@@ -137,7 +166,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
                 // 什么都不做
                 // value = _.toJavaObject(targetFunction.name);
             }
-
+            */
             entity[fieldName] = value;
         }
 
