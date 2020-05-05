@@ -22,6 +22,86 @@ export declare class Dao {
 }
 
 /**
+ * 模型对象( http 通用返回类型 )
+ */
+export declare class Model<T> {
+    success: boolean
+    msg: string
+    data: T
+
+    static newFail(msg: string): Model<void>
+
+    static newSuccess<T>(entityType: any, data: T): Model<T>
+}
+
+/**
+ * 模型对象( http 无返回类型, 只用于通知是否成功 )
+ */
+export declare class ModelOps extends Model<any> {
+
+    static newFail(msg: string): ModelOps
+
+    static newSuccess(data?: any): ModelOps
+}
+
+/**
+ * 分页对象
+ */
+export declare class PageDb {
+    total: number
+    size: number
+    current: number
+}
+
+/**
+ * 模型对象( http 通用返回类型 )
+ */
+export declare class ModelPage<T> {
+    success: boolean
+    msg: string
+    data: T
+    pagination: PageDb
+
+    static newFail(msg: string): ModelPage<void>
+
+    static newSuccess<T>(entityType: any, pagination: PageDb, data: T[]): ModelPage<T[]>
+}
+
+/**
+ * 表格 dataSource 中的查询请求参数
+ */
+export interface QueryParam {
+
+    /**
+     * 转换为 dao 的查询参数
+     */
+    toDaoParam(): any
+
+    /**
+     * 查询所关联的 page 对象
+     */
+    pageDb: PageDb
+
+    limit: number
+    limitOffset: number
+    needCount: boolean
+    params: {
+        [key: string]: any
+    }
+}
+
+/**
+ * 分析 Http Request 请求的帮助类
+ */
+export declare class Request {
+
+    /**
+     * 获取带分页的表格查询参数
+     */
+    static getPageGridQuery(): QueryParam
+}
+
+/**
  * 搜索引擎帮助类
  */
 export declare class ES {
@@ -101,9 +181,14 @@ export const Component: Function;
 export const Autowired: Function;
 
 /**
- * 标注接口
+ * 标注, 手动接口
  */
 export const Api: Function;
+
+/**
+ * 标注, 数据源接口
+ */
+export const ApiDataSource: Function;
 
 /**
  * 事务注解
@@ -191,13 +276,6 @@ export declare class JodaTime {
     getMillis(): number
 
     toString(pattern: string): string
-}
-
-/**
- * 分页对象
- */
-export declare class PageDb {
-
 }
 
 /**

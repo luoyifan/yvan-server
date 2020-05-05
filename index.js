@@ -36,6 +36,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
         }
     };
 
+    function ApiDector(typeName) {
+        return (targetPrototype, propName) => {
+            if (!Object.hasOwnProperty(targetPrototype, typeName)) {
+                targetPrototype[typeName] = [propName];
+            } else {
+                targetPrototype[typeName].push(propName);
+            }
+        }
+    }
+
     function Service(options) {
         function body(targetFunction) {
             var newInstance = new targetFunction();
@@ -177,6 +187,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
     exports.ES = Java.type('com.yvan.serverless.es.ESFunction').INSTANCE;
     exports.Server = Java.type('com.yvan.serverless.ServerUtils').INSTANCE;
     exports.Utils = Java.type('com.yvan.serverless.JavaUtils').INSTANCE;
+    exports.Request = Java.type('com.yvan.serverless.RequestUtils').INSTANCE;
+    exports.ModelOps = Java.type('com.yvan.serverless.model.ModelOpsGraalvm');
+    exports.Model = Java.type('com.yvan.serverless.model.ModelGraalvm');
+    exports.ModelPage = Java.type('com.yvan.serverless.model.ModelPageGraalvm');
     exports.TableName = TableName
     exports.TableField = TableField
     exports.IdField = IdField
@@ -184,7 +198,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
     exports.Repository = Service
     exports.Component = Service
     exports.Autowired = Autowired
-    exports.Api = {}
+    exports.Api = ApiDector('__apis')
+    exports.ApiDataSource = ApiDector('__apids')
     exports.Transactional = {}
     exports.Cacheable = {}
     exports.CacheEvict = {}
