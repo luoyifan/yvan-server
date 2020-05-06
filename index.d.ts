@@ -136,6 +136,15 @@ export declare namespace Utils {
      */
     export function getClassName(v: any): void;
 
+    /**
+     * 根据 Map 初始化 Entity 对象
+     */
+    export function toEntity<T extends new (...args: any) => any>(entity: T, data: any): InstanceType<T>
+
+    /**
+     * 生成64位长分布式唯一键
+     */
+    export function newId(): number
 }
 
 interface FieldOption {
@@ -143,7 +152,7 @@ interface FieldOption {
     updateIgnore: boolean
 }
 
-type FieldType = 'Double' | 'String' | 'JodaTime' | 'BigDecimal' | 'Boolean' | 'Integer' | string
+type FieldType = 'Double' | 'String' | 'JodaTime' | 'BigDecimal' | 'Boolean' | 'Integer' | 'Long'
 
 /**
  * 装饰实体关联的表格名
