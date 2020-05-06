@@ -38,7 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
     function ApiDector(typeName) {
         return (targetPrototype, propName) => {
-            if (!Object.hasOwnProperty(targetPrototype, typeName)) {
+            if (!targetPrototype.hasOwnProperty(typeName)) {
                 targetPrototype[typeName] = [propName];
             } else {
                 targetPrototype[typeName].push(propName);
