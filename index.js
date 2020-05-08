@@ -142,6 +142,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
                 case 'Integer':
                     value = parseInt(value)
                     break
+
+                case 'Long':
+                    value =value+''
+                    break
             }
             /*
             // 根据声明类型转换目标. Reflect.getMetadata 有性能问题
