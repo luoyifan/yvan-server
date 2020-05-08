@@ -6,6 +6,11 @@ export declare class Dao {
 
     static selectList<T extends new (...args: any) => any>(clazz: T, sqlId: string, ...params: any): InstanceType<T>[];
 
+    /**
+     * 不带实体类输出Sql结果
+     */
+    static selectListAny(sqlId: string, ...params: any): any[];
+
     static selectPageList<T extends new (...args: any) => any>(clazz: T, sqlId: string, ...params: any): InstanceType<T>[];
 
     static insert<T>(entity: T): number;
