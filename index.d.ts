@@ -78,9 +78,14 @@ export declare class ModelPage<T> {
 export interface QueryParam {
 
     /**
-     * 转换为 dao 的查询参数
+     * 转换为 dao 的查询参数, 带分页
      */
     toDaoParam(): any
+
+    /**
+     * 转换为 dao 的查询参数, 不带分页
+     */
+    toNoPageDaoParam():any
 
     /**
      * 查询所关联的 page 对象
