@@ -15,17 +15,19 @@ export declare class Dao {
 
     static insert<T>(entity: T): number;
 
-    static insertAny(tableName: string,...params: any): number;
+    static insertAny(tableName: string, ...params: any): number;
+
+    static insertAnyBatch(tableName: string, ...paramList: any): number;
 
     static insertBatch<T>(entityList: T[]): number;
 
     static updateById<T>(entity: T): number;
 
-    static updateAny(tableName: string,sets: any,wheres:any): number;
+    static updateAny(tableName: string, sets: any, wheres: any): number;
 
     static deleteById<T>(entity: T): number;
 
-    static deleteAny(tableName:string,wheres:any);
+    static deleteAny(tableName: string, wheres: any);
 
     static save<T>(sqlId: string, ...params: any): number;
 
@@ -91,7 +93,7 @@ export interface QueryParam {
     /**
      * 转换为 dao 的查询参数, 不带分页
      */
-    toNoPageDaoParam():any
+    toNoPageDaoParam(): any
 
     /**
      * 查询所关联的 page 对象
