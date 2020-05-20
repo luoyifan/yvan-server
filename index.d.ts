@@ -15,11 +15,17 @@ export declare class Dao {
 
     static insert<T>(entity: T): number;
 
+    static insertAny(tableName: string,...params: any): number;
+
     static insertBatch<T>(entityList: T[]): number;
 
     static updateById<T>(entity: T): number;
 
+    static updateAny(tableName: string,sets: any,wheres:any): number;
+
     static deleteById<T>(entity: T): number;
+
+    static deleteAny(tableName:string,wheres:any);
 
     static save<T>(sqlId: string, ...params: any): number;
 
