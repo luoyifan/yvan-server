@@ -29,6 +29,8 @@ export declare class Dao {
 
     static deleteAny(tableName: string, wheres: any);
 
+    static deleteByIds(tableName: string, idField: string, ids: any);
+
     static save<T>(sqlId: string, ...params: any): number;
 
     static remove<T>(sqlId: string, ...params: any): number;
